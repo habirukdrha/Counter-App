@@ -4,9 +4,9 @@ import Counters from "./components/counters";
 import React, { Component } from "react";
 
 class App extends Component {
-  constructor() {
-    super();
-    console.log("App - constructor");
+  constructor(props) {
+    super(props);
+    console.log("App - constructor", this.props);
   }
   componentDidMount() {
     console.log("App - componentDidMount");
@@ -19,6 +19,15 @@ class App extends Component {
       { id: 3, value: 23 },
       { id: 4, value: 0 },
     ],
+  };
+
+  handleDecrement = (counter) => {
+    // console.log("Decrement Clicked");
+    const counters = [...this.state.counters];
+    const index = counters.indexOf(counter);
+    counters[index] = { ...counter };
+    counters[index].value--;
+    this.setState({ counters });
   };
 
   handleIncrement = (counter) => {
@@ -47,6 +56,7 @@ class App extends Component {
     console.log("App - render");
     return (
       <React.Fragment>
+        <h1>Open console to see lifecyle hooks calls.</h1>
         <NavBar
           totalCounter={this.state.counters.filter((c) => c.value > 0).length}
         />
@@ -56,6 +66,7 @@ class App extends Component {
             onIncrement={this.handleIncrement}
             onDelete={this.handleDelete}
             onReset={this.handleReset}
+            onDecrement={this.handleDecrement}
           />
         </main>
       </React.Fragment>
